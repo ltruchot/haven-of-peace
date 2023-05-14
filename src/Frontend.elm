@@ -2,13 +2,16 @@ module Frontend exposing (..)
 
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation as Nav
+import Css.Global
+import DesignSystem.BasicButton exposing (basicButton)
+import DesignSystem.CardDashed exposing (cardDashed)
 import Html.Styled as Html exposing (toUnstyled)
 import Html.Styled.Attributes as Attr
 import Html.Styled.Events as Evt
 import Lamdera
 import Random
-import Tailwind.Theme as Tw
-import Tailwind.Utilities as Tw
+import Tailwind.Theme as TwTheme
+import Tailwind.Utilities as Tw exposing (globalStyles)
 import Types exposing (..)
 import UUID exposing (UUID)
 import Url
@@ -80,19 +83,19 @@ view : Model -> Browser.Document FrontendMsg
 view model =
     let
         body =
-            Html.div [ Attr.css [ Tw.bg_color Tw.yellow_100 ] ]
-                [ basicButton [ Evt.onClick NewGameClicked ] [ Html.text model.message ]
+            Html.div []
+                [ Css.Global.global globalStyles
+                , Html.div
+                    [ Attr.css
+                        [ Tw.bg_color TwTheme.gray_900
+                        , Tw.h_screen
+                        , Tw.p_24
+                        ]
+                    ]
+                    [ cardDashed [ Evt.onClick NewGameClicked ] [ Html.text "New Game" ]
+                    ]
                 ]
     in
     { body = [ toUnstyled body ]
     , title = "Haven of peace"
     }
-
-
-basicButton : List (Html.Attribute FrontendMsg) -> List (Html.Html FrontendMsg) -> Html.Html FrontendMsg
-basicButton attrs =
-    let
-        twCss =
-            [ Tw.bg_color Tw.blue_500, Tw.text_color Tw.white, Tw.p_2, Tw.rounded ]
-    in
-    Html.button (List.concat [ [ Attr.css twCss ], attrs ])
