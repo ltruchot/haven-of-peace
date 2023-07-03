@@ -10,6 +10,7 @@
       "elm/html": "1.0.0",
       "elm/url": "1.0.0",
       "elm/random": "1.0.0",
+      "elm/svg": "1.0.1",
       "lamdera/codecs": "1.0.0",
       "lamdera/core": "1.0.0",
       "matheus23/elm-default-tailwind-modules": "4.0.1",

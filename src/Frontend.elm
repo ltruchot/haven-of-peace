@@ -5,6 +5,7 @@ import Browser.Navigation as Nav
 import Css.Global
 import DesignSystem.BasicButton exposing (basicButton)
 import DesignSystem.CardDashed exposing (cardDashed)
+import DesignSystem.Hero exposing (hero)
 import Html.Styled as Html exposing (toUnstyled)
 import Html.Styled.Attributes as Attr
 import Html.Styled.Events as Evt
@@ -87,13 +88,16 @@ view model =
                 [ Css.Global.global globalStyles
                 , Html.div
                     [ Attr.css
-                        [ Tw.bg_color TwTheme.gray_900
+                        [ Tw.bg_color TwTheme.zinc_900
                         , Tw.h_screen
                         , Tw.p_24
+                        , Tw.antialiased
+                        , Tw.relative
                         ]
                     ]
-                    [ cardDashed [ Evt.onClick NewGameClicked ] [ Html.text "New Game" ]
+                    [ hero, Html.div [ Attr.css [Tw.h_96, Tw.w_full] ] [] {-, cardDashed [ Evt.onClick NewGameClicked ] [ Html.text "New Games" ], Html.div [ Attr.css [ Tw.h_64]] [] -}
                     ]
+     
                 ]
     in
     { body = [ toUnstyled body ]
