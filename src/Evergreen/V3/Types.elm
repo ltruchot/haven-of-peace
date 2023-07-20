@@ -11,6 +11,7 @@ type alias FrontendModel =
     , message : String
     , setupListCheckedIndexes : Evergreen.V3.DesignSystem.CheckableList.State
     , developmentListCheckedIndexes : Evergreen.V3.DesignSystem.CheckableList.State
+    , activityListCheckedIndexes : Evergreen.V3.DesignSystem.CheckableList.State
     }
 
 
@@ -25,6 +26,7 @@ type FrontendMsg
     | NewGameClicked
     | SetupListChanged Evergreen.V3.DesignSystem.CheckableList.State
     | DevelopmentListChanged Evergreen.V3.DesignSystem.CheckableList.State
+    | ActivityListChanged Evergreen.V3.DesignSystem.CheckableList.State
     | NoOpFrontendMsg
 
 
