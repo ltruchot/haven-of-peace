@@ -54,14 +54,16 @@ toFrontend : Evergreen.V1.Types.ToFrontend -> MsgMigration Evergreen.V3.Types.To
 toFrontend old =
     MsgUnchanged
 
+listCheckedIndexesinit: Evergreen.V3.DesignSystem.CheckableList.State
+listCheckedIndexesinit = Evergreen.V3.DesignSystem.CheckableList.State []
 
 migrate_Types_FrontendModel : Evergreen.V1.Types.FrontendModel -> Evergreen.V3.Types.FrontendModel
 migrate_Types_FrontendModel old =
     { key = old.key
     , message = old.message
-    , setupListCheckedIndexes = (Evergreen.V3.DesignSystem.CheckableList.init {- Type `Evergreen.V3.DesignSystem.CheckableList.State` was added in V3. I need you to set a default value. -})
-    , developmentListCheckedIndexes = (Evergreen.V3.DesignSystem.CheckableList.init {- Type `Evergreen.V3.DesignSystem.CheckableList.State` was added in V3. I need you to set a default value. -})
-    , activityListCheckedIndexes = (Evergreen.V3.DesignSystem.CheckableList.init {- Type `Evergreen.V3.DesignSystem.CheckableList.State` was added in V3. I need you to set a default value. -})
+    , setupListCheckedIndexes = ( listCheckedIndexesinit{- Type `Evergreen.V3.DesignSystem.CheckableList.State` was added in V3. I need you to set a default value. -})
+    , developmentListCheckedIndexes = (listCheckedIndexesinit {- Type `Evergreen.V3.DesignSystem.CheckableList.State` was added in V3. I need you to set a default value. -})
+    , activityListCheckedIndexes = (listCheckedIndexesinit {- Type `Evergreen.V3.DesignSystem.CheckableList.State` was added in V3. I need you to set a default value. -})
     }
 
 
