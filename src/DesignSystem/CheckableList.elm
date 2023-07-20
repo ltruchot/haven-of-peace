@@ -1,4 +1,4 @@
-module DesignSystem.CheckableList exposing (State, checkableList, init)
+module DesignSystem.CheckableList exposing (State, checkableList, init, getValue)
 
 import Css
 import Html.Styled as Html exposing (div, fieldset, input, label, legend, li, ol, strong, text)
@@ -15,6 +15,10 @@ type State
 
 type Msg
     = ItemClicked Int
+
+getValue : State -> List Int
+getValue (State value) =
+    value
 
 
 init : State
