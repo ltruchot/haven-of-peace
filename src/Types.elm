@@ -11,6 +11,7 @@ type alias FrontendModel =
     , message : String
     , setupListCheckedIndexes : CheckableList.State
     , developmentListCheckedIndexes : CheckableList.State
+    , activityListCheckedIndexes : CheckableList.State
     }
 
 
@@ -25,6 +26,7 @@ type FrontendMsg
     | NewGameClicked
     | SetupListChanged CheckableList.State
     | DevelopmentListChanged CheckableList.State
+    | ActivityListChanged CheckableList.State
     | NoOpFrontendMsg
 
 

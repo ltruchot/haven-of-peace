@@ -56,6 +56,7 @@ checkableListItem toMsg (State value) idx item =
             , Tw.flex
             , Tw.items_start
             , Tw.py_4
+            , Tw.text_lg
             ]
         , Evt.onClick (toMsg (State (update (ItemClicked idx)value)))
         ]

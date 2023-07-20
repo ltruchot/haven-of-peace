@@ -42,6 +42,7 @@ init url key =
       , message = "Hello world"
       , setupListCheckedIndexes = CheckableList.init
       , developmentListCheckedIndexes = CheckableList.init
+      , activityListCheckedIndexes = CheckableList.init
       }
     , Cmd.none
     )
@@ -82,6 +83,11 @@ update msg model =
             ( { model | developmentListCheckedIndexes = state }
             , Cmd.none
             )
+        
+        ActivityListChanged state ->
+            ( { model | activityListCheckedIndexes = state }
+            , Cmd.none
+            )
 
         NoOpFrontendMsg ->
             ( model, Cmd.none )
@@ -113,7 +119,7 @@ view model =
                     [ hero
                     , Html.div [ Attr.css [ Tw.w_full ] ]
                         [ appHeader
-                        , cardDashed [ Evt.onClick NewGameClicked, Attr.css [ Tw.mb_8 ] ] [ Html.text "Roll Player" ]
+                        , cardDashed [ Evt.onClick NewGameClicked, Attr.css [ Tw.mb_8, Tw.text_xl ] ] [ Html.text "Roll Player (version intégrale)", Html.img [ Attr.src "/roll-player-full.jpg" ] [] ]
                         , CheckableList.checkableList SetupListChanged
                             model.setupListCheckedIndexes
                             "Mise en place: 5 Joueurs (simplifiée)"
@@ -136,14 +142,31 @@ view model =
                         , CheckableList.checkableList DevelopmentListChanged
                             model.developmentListCheckedIndexes
                             "Phase de développement"
-                            [ "Joueur 1 pioche démons et place pièces pour chaque Initiative concernée"
-                            , "Joueur 1 pioche 6/12 dés (selon AdA), les lancent, les répartis sur Initiatives, en choisissant la place des dés de même valeur"
-                            , "Joueur 1 choisi Initiative, place Marqueur dessus, dispose 1/2 dé(s) sur Personnage, déclenche ou non UNE SEULE action"
-                            , "Joueur 1 obtient pièce et/ou démon"
+                            [ 
+                            "Joueur 1 (J-1) pioche démons et place pièces pour chaque Initiative concernée"
+                            , "J-1 pioche 6/12 dés (selon AdA), les lancent, les répartis sur Initiatives, en choisissant la place des dés de même valeur"
+                            , "J-1 peut à tout moment utiliser 1 ou + compétences si son alignement le permet (avec ou sans déclencher l'effet de la carte)"
+                            , "J-1 peut à tout moment bannir un démon (1 charisme ou 5PO, garder et retourner la carte)"
+                            , "J-1 choisi Initiative, place Marqueur dessus, dispose 1/2 dé(s) sur Personnage, déclenche ou non UNE SEULE action"
+                            , "J-1 obtient pièce et/ou démon"
                             , "Joueur 2 démarre son tour, en sautant les étapes 1 et 2"
-                            , "Ainsi de suite jusque joueur 5"
+                            , "Ainsi de suite jusque Joueur 5"
                             ]
+                        , CheckableList.checkableList ActivityListChanged
+                            model.activityListCheckedIndexes
+                            "Phase de marché"
+                            ["Joueur ayant la plus basse Initiative (J-Init) joue en premier"
+                            , "J-Init peut à tout moment utiliser 1 ou + compétences si son alignement le permet (avec ou sans déclencher l'effet de la carte)"
+                            , "J-1 peut à tout moment bannir un démon (1 charisme ou 5PO, garder et retourner la carte)"
+                            , "J-Init peut acheter 1 carte Marché OU revendre une carte Marché (défaussée contre 2PO) OU faire 1 traque"
+                            , "En cas d'achat, l'argent est dépensé en appliquant charisme, compétences et/ou bonus/malus"
+                            , "En cas de traque, J-Init peut renouveler autant de carte Sbires qu'il le souhaite, pour 3PO chacune"
+                            , "En cas de traque, J-Init reçoit 1 dé de combat + tous ses dés bonus (cartes sbire, objets...) + x dés mercenaires pour 3XP ou 5PO chacun"
+                            , "En cas de traque, J-Init peut relancer x dés au prix d'1XP par dé"
+                            , "En cas de traque réussie, J-Init reçoit sa récompense: récompense gagnée et si trophée: la carte est gardée + jeton aventure choisi, sinon carte renouvelée"
+                            , "Ainsi de suite jusque Joueur 5, par ordre d'Initiative"]
                         ]
+                      
                     ]
                 ]
     in
