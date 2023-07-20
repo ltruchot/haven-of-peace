@@ -1,20 +1,55 @@
-module DesignSystem.CheckableList exposing (checkableList)
+module DesignSystem.CheckableList exposing (State, checkableList, init)
 
 import Css
-import Html.Styled as Html exposing (div, fieldset, input, label, legend, text, ol, li, strong)
+import Html.Styled as Html exposing (div, fieldset, input, label, legend, li, ol, strong, text)
 import Html.Styled.Attributes as Attr exposing (css, src)
+import Html.Styled.Events as Evt
 import Tailwind.Breakpoints as Bp
 import Tailwind.Theme as TwTheme
 import Tailwind.Utilities as Tw
 
 
-createCheckableListItems : List String -> List (Html.Html msg)
-createCheckableListItems items =
-    List.indexedMap (\idx item -> checkableListItem (String.fromInt (idx + 1)) item) items
+type State
+    = State (List Int)
 
 
-checkableListItem : String -> String -> Html.Html msg
-checkableListItem id item =
+type Msg
+    = ItemClicked Int
+
+
+init : State
+init =
+    State []
+
+
+update : Msg -> List Int -> List Int
+update msg value =
+    case msg of
+        ItemClicked idx ->
+            if List.member idx value then List.filter (\i -> i /= idx) value else List.concat [ value, [ idx ]]
+
+
+createCheckableListItems : (State -> msg) -> State -> List String -> List (Html.Html msg)
+createCheckableListItems toMsg (State value) items =
+    List.indexedMap (\idx item -> checkableListItem toMsg (State value) idx item) items
+
+
+checkableListItem : (State -> msg) -> State -> Int -> String -> Html.Html msg
+checkableListItem toMsg (State value) idx item =
+    let
+        id =
+            String.fromInt (idx + 1)
+
+        isChecked =
+            List.member idx value
+
+        lineThroughClassList =
+            if isChecked then
+                [ Tw.line_through ]
+
+            else
+                []
+    in
     li
         [ css
             [ Tw.relative
@@ -22,6 +57,7 @@ checkableListItem id item =
             , Tw.items_start
             , Tw.py_4
             ]
+        , Evt.onClick (toMsg (State (update (ItemClicked idx)value)))
         ]
         [ div
             [ css
@@ -34,12 +70,16 @@ checkableListItem id item =
             [ label
                 [ Attr.for ("item-" ++ id)
                 , css
-                    [ Tw.select_none
-                    , Tw.font_medium
-                    , Tw.text_color TwTheme.gray_300
-                    ]
+                    (List.concat
+                        [ [ Tw.select_none
+                          , Tw.font_medium
+                          , Tw.text_color TwTheme.gray_300
+                          ]
+                        , lineThroughClassList
+                        ]
+                    )
                 ]
-                [ strong [] [text (id ++ ". ")], text item ]
+                [ strong [] [ text (id ++ ". ") ], text item ]
             ]
         , div
             [ css
@@ -53,6 +93,7 @@ checkableListItem id item =
                 [ Attr.id ("item-" ++ id)
                 , Attr.name ("item-" ++ id)
                 , Attr.type_ "checkbox"
+                , Attr.checked isChecked
                 , css
                     [ Tw.h_4
                     , Tw.w_4
@@ -69,9 +110,9 @@ checkableListItem id item =
         ]
 
 
-checkableList : String -> List String -> Html.Html msg
-checkableList title items =
-    fieldset [ css [Tw.mb_8]]
+checkableList : (State -> msg) -> State -> String -> List String -> Html.Html msg
+checkableList toMsg (State value) title items =
+    fieldset [ css [ Tw.mb_8 ] ]
         [ legend
             [ css
                 [ Tw.text_base
@@ -91,5 +132,5 @@ checkableList title items =
                 , Tw.border_color TwTheme.gray_200
                 ]
             ]
-            (createCheckableListItems items)
+            (createCheckableListItems toMsg (State value) items)
         ]

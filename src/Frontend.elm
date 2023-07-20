@@ -5,7 +5,7 @@ import Browser.Navigation as Nav
 import Css.Global
 import DesignSystem.BasicButton exposing (basicButton)
 import DesignSystem.CardDashed exposing (cardDashed)
-import DesignSystem.CheckableList exposing (checkableList)
+import DesignSystem.CheckableList as CheckableList
 import DesignSystem.Header exposing (appHeader)
 import DesignSystem.Hero exposing (hero)
 import Html.Styled as Html exposing (toUnstyled)
@@ -40,6 +40,8 @@ init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
 init url key =
     ( { key = key
       , message = "Hello world"
+      , setupListCheckedIndexes = CheckableList.init
+      , developmentListCheckedIndexes = CheckableList.init
       }
     , Cmd.none
     )
@@ -70,6 +72,16 @@ update msg model =
                         |> Tuple.first
             in
             ( { model | message = UUID.toString uuid }, Cmd.none )
+
+        SetupListChanged state ->
+            ( { model | setupListCheckedIndexes = state }
+            , Cmd.none
+            )
+        
+        DevelopmentListChanged state ->
+            ( { model | developmentListCheckedIndexes = state }
+            , Cmd.none
+            )
 
         NoOpFrontendMsg ->
             ( model, Cmd.none )
@@ -102,7 +114,9 @@ view model =
                     , Html.div [ Attr.css [ Tw.w_full ] ]
                         [ appHeader
                         , cardDashed [ Evt.onClick NewGameClicked, Attr.css [ Tw.mb_8 ] ] [ Html.text "Roll Player" ]
-                        , checkableList "Mise en place: 5 Joueurs (simplifiée)"
+                        , CheckableList.checkableList SetupListChanged
+                            model.setupListCheckedIndexes
+                            "Mise en place: 5 Joueurs (simplifiée)"
                             [ "Chaque Joueur lance un dé, le meilleur devient Joueur 1 (il reçoit le Pion Rouge J1), les autres sont 2, 3, 4, 5 dans le sens des aiguilles d'une montre. On respecte cet ordre pour les étapes suivantes"
                             , "Chaque Joueur pioche 2 Personnages, en choisi 1, rend l'autre"
                             , "Chaque Joueur pioche 2 Familiers, en choisi 1, rend l'autre"
@@ -119,18 +133,15 @@ view model =
                             , "Chaque joueur pioche 6 dés et les places"
                             , "Le joueur 1 démarre le 1er tour"
                             ]
-                        , checkableList "Phase de développement"
-                            [ 
-                            "Joueur 1 pioche démons et place pièces pour chaque Initiative concernée"
+                        , CheckableList.checkableList DevelopmentListChanged
+                            model.developmentListCheckedIndexes
+                            "Phase de développement"
+                            [ "Joueur 1 pioche démons et place pièces pour chaque Initiative concernée"
                             , "Joueur 1 pioche 6/12 dés (selon AdA), les lancent, les répartis sur Initiatives, en choisissant la place des dés de même valeur"
                             , "Joueur 1 choisi Initiative, place Marqueur dessus, dispose 1/2 dé(s) sur Personnage, déclenche ou non UNE SEULE action"
                             , "Joueur 1 obtient pièce et/ou démon"
                             , "Joueur 2 démarre son tour, en sautant les étapes 1 et 2"
                             , "Ainsi de suite jusque joueur 5"
-                            ]
-                        , checkableList "Phase de marché"
-                            [ 
-                            ""
                             ]
                         ]
                     ]
