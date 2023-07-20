@@ -21,4 +21,7 @@ twCss =
     , Tw.p_4
     , Tw.text_center
     , Tw.text_color TwTheme.gray_300
+    , Tw.flex
+    , Tw.items_center
+    , Tw.flex_col
     ]

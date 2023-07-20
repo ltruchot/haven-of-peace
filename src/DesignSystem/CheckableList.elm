@@ -1,14 +1,13 @@
-module DesignSystem.CheckableList exposing (State, checkableList, init, getValue)
+module DesignSystem.CheckableList exposing (State, checkableList, getValue, init)
 
 import Css
 import Html.Styled as Html exposing (div, fieldset, input, label, legend, li, ol, strong, text)
 import Html.Styled.Attributes as Attr exposing (css, src)
 import Html.Styled.Events as Evt
+import Html.Styled.Events.Extra exposing (onClickPreventDefaultAndStopPropagation, onClickStopPropagation)
 import Tailwind.Breakpoints as Bp
 import Tailwind.Theme as TwTheme
 import Tailwind.Utilities as Tw
-import Html.Styled.Events.Extra exposing (onClickPreventDefaultAndStopPropagation)
-
 
 
 type State
@@ -17,6 +16,7 @@ type State
 
 type Msg
     = ItemClicked Int
+
 
 getValue : State -> List Int
 getValue (State value) =
@@ -32,7 +32,11 @@ update : Msg -> List Int -> List Int
 update msg value =
     case msg of
         ItemClicked idx ->
-            if List.member idx value then List.filter (\i -> i /= idx) value else List.concat [ value, [ idx ]]
+            if List.member idx value then
+                List.filter (\i -> i /= idx) value
+
+            else
+                List.concat [ value, [ idx ] ]
 
 
 createCheckableListItems : (State -> msg) -> State -> List String -> List (Html.Html msg)
@@ -64,7 +68,7 @@ checkableListItem toMsg (State value) idx item =
             , Tw.py_4
             , Tw.text_lg
             ]
-        , onClickPreventDefaultAndStopPropagation (toMsg (State (update (ItemClicked idx)value)))
+        , onClickPreventDefaultAndStopPropagation (toMsg (State (update (ItemClicked idx) value)))
         ]
         [ div
             [ css
@@ -81,6 +85,7 @@ checkableListItem toMsg (State value) idx item =
                         [ [ Tw.select_none
                           , Tw.font_medium
                           , Tw.text_color TwTheme.gray_300
+                          , Tw.text_lg
                           ]
                         , lineThroughClassList
                         ]
@@ -101,6 +106,7 @@ checkableListItem toMsg (State value) idx item =
                 , Attr.name ("item-" ++ id)
                 , Attr.type_ "checkbox"
                 , Attr.checked isChecked
+                , onClickStopPropagation (toMsg (State (update (ItemClicked idx) value)))
                 , css
                     [ Tw.h_4
                     , Tw.w_4
@@ -119,13 +125,14 @@ checkableListItem toMsg (State value) idx item =
 
 checkableList : (State -> msg) -> State -> String -> List String -> Html.Html msg
 checkableList toMsg (State value) title items =
-    fieldset [ css [ Tw.mb_8 ] ]
+    fieldset [ css [ Tw.mb_12 ] ]
         [ legend
             [ css
-                [ Tw.text_base
+                [ Tw.leading_6
+                , Tw.mb_4
+                , Tw.text_xl
                 , Tw.font_semibold
-                , Tw.leading_6
-                , Tw.text_color TwTheme.gray_200
+                , Tw.text_color TwTheme.white
                 ]
             ]
             [ text title ]

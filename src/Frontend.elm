@@ -78,12 +78,12 @@ update msg model =
             ( { model | setupListCheckedIndexes = state }
             , Cmd.none
             )
-        
+
         DevelopmentListChanged state ->
             ( { model | developmentListCheckedIndexes = state }
             , Cmd.none
             )
-        
+
         ActivityListChanged state ->
             ( { model | activityListCheckedIndexes = state }
             , Cmd.none
@@ -119,7 +119,13 @@ view model =
                     [ hero
                     , Html.div [ Attr.css [ Tw.w_full ] ]
                         [ appHeader
-                        , cardDashed [ Evt.onClick NewGameClicked, Attr.css [ Tw.mb_8, Tw.text_xl ] ] [ Html.text "Roll Player (version intégrale)", Html.img [ Attr.src "/roll-player-full.jpg" ] [] ]
+                        , cardDashed
+                            [ Evt.onClick NewGameClicked
+                            , Attr.css [ Tw.mb_8, Tw.text_xl ]
+                            ]
+                            [ Html.div [ Attr.css [ Tw.mb_4 ] ] [ Html.text "Roll Player (version intégrale)" ]
+                            , Html.img [ Attr.src "/roll-player-full.jpg", Attr.css [ Tw.w_64]] []
+                            ]
                         , CheckableList.checkableList SetupListChanged
                             model.setupListCheckedIndexes
                             "Mise en place: 5 Joueurs (simplifiée)"
@@ -142,8 +148,7 @@ view model =
                         , CheckableList.checkableList DevelopmentListChanged
                             model.developmentListCheckedIndexes
                             "Phase de développement"
-                            [ 
-                            "Joueur 1 (J-1) pioche démons et place pièces pour chaque Initiative concernée"
+                            [ "Joueur 1 (J-1) pioche démons et place pièces pour chaque Initiative concernée"
                             , "J-1 pioche 6/12 dés (selon AdA), les lancent, les répartis sur Initiatives, en choisissant la place des dés de même valeur"
                             , "J-1 peut à tout moment utiliser 1 ou + compétences si son alignement le permet (avec ou sans déclencher l'effet de la carte)"
                             , "J-1 peut à tout moment bannir un démon (1 charisme ou 5PO, garder et retourner la carte)"
@@ -155,7 +160,7 @@ view model =
                         , CheckableList.checkableList ActivityListChanged
                             model.activityListCheckedIndexes
                             "Phase de marché"
-                            ["Joueur ayant la plus basse Initiative (J-Init) joue en premier"
+                            [ "Joueur ayant la plus basse Initiative (J-Init) joue en premier"
                             , "J-Init peut à tout moment utiliser 1 ou + compétences si son alignement le permet (avec ou sans déclencher l'effet de la carte)"
                             , "J-1 peut à tout moment bannir un démon (1 charisme ou 5PO, garder et retourner la carte)"
                             , "J-Init peut acheter 1 carte Marché OU revendre une carte Marché (défaussée contre 2PO) OU faire 1 traque"
@@ -164,9 +169,9 @@ view model =
                             , "En cas de traque, J-Init reçoit 1 dé de combat + tous ses dés bonus (cartes sbire, objets...) + x dés mercenaires pour 3XP ou 5PO chacun"
                             , "En cas de traque, J-Init peut relancer x dés au prix d'1XP par dé"
                             , "En cas de traque réussie, J-Init reçoit sa récompense: récompense gagnée et si trophée: la carte est gardée + jeton aventure choisi, sinon carte renouvelée"
-                            , "Ainsi de suite jusque Joueur 5, par ordre d'Initiative"]
+                            , "Ainsi de suite jusque Joueur 5, par ordre d'Initiative"
+                            ]
                         ]
-                      
                     ]
                 ]
     in

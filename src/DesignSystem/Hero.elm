@@ -29,12 +29,14 @@ hero =
                 , Css.property "margin-left" "-38rem"
                 , Css.property "height" "25rem"
                 , Css.property "width" "81.25rem"
-                , Css.property "-mask-image" "linear-gradient(#fff,transparent)"
+                , Css.property "-webkit-mask-image" "linear-gradient(#fff,transparent)"
+                , Css.property "mask-image" "linear-gradient(#fff,transparent)"
                 ]
             ]
             [ div
                 [ css
                     [ Tw.absolute
+                    , Css.property "-webkit-mask-image" "radial-gradient(farthest-side at top,#fff,transparent)"
                     , Css.property "mask-image" "radial-gradient(farthest-side at top,#fff,transparent)"
                     , Css.property "--tw-gradient-from-position" " "
                     , Css.property "--tw-gradient-to-position" " "
