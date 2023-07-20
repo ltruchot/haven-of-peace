@@ -1,15 +1,17 @@
 module DesignSystem.Hero exposing (hero)
-import Css 
-import Svg.Styled as Svg exposing (svg, path)
-import Svg.Styled.Attributes as SvgAttr
+
+import Css
 import Html.Styled as Html exposing (div)
 import Html.Styled.Attributes as Attr exposing (css)
+import Svg.Styled as Svg exposing (path, svg)
+import Svg.Styled.Attributes as SvgAttr
+import Tailwind.Breakpoints as Bp
 import Tailwind.Theme as TwTheme
 import Tailwind.Utilities as Tw
-import Tailwind.Breakpoints as Bp
 
 
-hero = div
+hero =
+    div
         [ css
             [ Tw.absolute
             , Tw.inset_0
@@ -42,7 +44,6 @@ hero = div
                     , Css.property "background-image" "linear-gradient(var(--tw-gradient-stops))"
                     , Tw.opacity_100
                     , Css.property "inset" "0"
-                  
                     ]
                 ]
                 [ svg
@@ -54,7 +55,6 @@ hero = div
                         , Css.property "height" "200%"
                         , Tw.w_full
                         , Css.property "transform" "translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(-18deg) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
-
                         , Tw.mix_blend_overlay
                         , Css.property "stroke" "hsla(0,0%,100%,.05)"
                         , Css.property "fill" "hsla(0,0%,100%,.025)"
@@ -132,16 +132,17 @@ hero = div
                     [ Tw.absolute
                     , Tw.left_1over2
                     , Tw.top_0
+
                     -- , Tw.ml_[_19rem]
-                    ,Css.property "margin-left" "-19rem"
-                        
+                    , Css.property "margin-left" "-19rem"
+
                     --, Tw.w_[69_dot_5625rem]
                     , Css.property "width" "69.5625rem"
                     , Tw.fill_color TwTheme.white
+
                     -- , Tw.blur_[26px]
                     , Css.property "filter" "blur(26px)"
                     , Tw.hidden
-                        
                     ]
                 ]
                 [ path
