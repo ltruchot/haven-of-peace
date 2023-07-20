@@ -7,6 +7,8 @@ import Html.Styled.Events as Evt
 import Tailwind.Breakpoints as Bp
 import Tailwind.Theme as TwTheme
 import Tailwind.Utilities as Tw
+import Html.Styled.Events.Extra exposing (onClickPreventDefaultAndStopPropagation)
+
 
 
 type State
@@ -62,7 +64,7 @@ checkableListItem toMsg (State value) idx item =
             , Tw.py_4
             , Tw.text_lg
             ]
-        , Evt.onClick (toMsg (State (update (ItemClicked idx)value)))
+        , onClickPreventDefaultAndStopPropagation (toMsg (State (update (ItemClicked idx)value)))
         ]
         [ div
             [ css
