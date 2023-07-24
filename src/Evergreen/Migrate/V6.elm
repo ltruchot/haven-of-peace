@@ -56,27 +56,23 @@ toFrontend : Evergreen.V3.Types.ToFrontend -> MsgMigration Evergreen.V6.Types.To
 toFrontend old =
     MsgUnchanged
 
+selectIndexInit : Evergreen.V6.DesignSystem.Select.State
+selectIndexInit = Evergreen.V6.DesignSystem.Select.State 0
 
 listCheckedIndexesInit : Evergreen.V6.DesignSystem.CheckableList.State
-listCheckedIndexesInit =
-    Evergreen.V6.DesignSystem.CheckableList.State []
-
-
-selectIndexInit : Evergreen.V6.DesignSystem.Select.State
-selectIndexInit =
-    Evergreen.V6.DesignSystem.Select.State 0
+listCheckedIndexesInit = Evergreen.V6.DesignSystem.CheckableList.State []
 
 
 migrate_Types_FrontendModel : Evergreen.V3.Types.FrontendModel -> Evergreen.V6.Types.FrontendModel
 migrate_Types_FrontendModel old =
     { key = old.key
     , message = old.message
-    , playerNumberFewerIndex = selectIndexInit
+    , playerNumberFewerIndex = (selectIndexInit {- Type `Evergreen.V6.DesignSystem.Select.State` was added in V6. I need you to set a default value. -})
     , setupListCheckedIndexes = old.setupListCheckedIndexes |> migrate_DesignSystem_CheckableList_State
     , developmentListCheckedIndexes = old.developmentListCheckedIndexes |> migrate_DesignSystem_CheckableList_State
     , activityListCheckedIndexes = old.activityListCheckedIndexes |> migrate_DesignSystem_CheckableList_State
-    , monsterListCheckedIndexes = listCheckedIndexesInit
-    , scoringListCheckedIndexes = listCheckedIndexesInit
+    , monsterListCheckedIndexes = (listCheckedIndexesInit {- Type `Evergreen.V6.DesignSystem.CheckableList.State` was added in V6. I need you to set a default value. -})
+    , scoringListCheckedIndexes = (listCheckedIndexesInit {- Type `Evergreen.V6.DesignSystem.CheckableList.State` was added in V6. I need you to set a default value. -})
     }
 
 
