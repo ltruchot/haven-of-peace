@@ -15,7 +15,8 @@ type State
 
 
 type Msg
-    = ItemClicked Int
+    = GlobalClicked (List String)
+    | ItemClicked Int
 
 
 getValue : State -> List Int
@@ -31,6 +32,11 @@ init =
 update : Msg -> List Int -> List Int
 update msg value =
     case msg of
+        GlobalClicked items ->
+            if List.length items == List.length value then
+                []
+            else
+                List.range 0 (List.length items - 1)
         ItemClicked idx ->
             if List.member idx value then
                 List.filter (\i -> i /= idx) value
@@ -112,9 +118,9 @@ checkableListItem toMsg (State value) idx item =
                     , Tw.w_4
                     , Tw.rounded
                     , Tw.border_color TwTheme.gray_300
-                    , Tw.text_color TwTheme.indigo_600
+                    , Tw.accent_color TwTheme.emerald_400
                     , Css.focus
-                        [ Tw.ring_color TwTheme.indigo_600
+                        [ Tw.ring_color TwTheme.emerald_400
                         ]
                     ]
                 ]
@@ -125,17 +131,47 @@ checkableListItem toMsg (State value) idx item =
 
 checkableList : (State -> msg) -> State -> String -> List String -> Html.Html msg
 checkableList toMsg (State value) title items =
-    fieldset [ css [ Tw.mb_12 ] ]
-        [ legend
+    let 
+        isGlobalChecked = List.length value == List.length items
+    in
+        fieldset [ css [ Tw.mb_12 ] ]
+        [
+            div [ 
+                css [ 
+                    Tw.flex
+                    , Tw.justify_between
+                    , Tw.items_center
+                    , Tw.mb_4
+                    ]
+                ][ 
+            legend
             [ css
-                [ Tw.leading_6
-                , Tw.mb_4
-                , Tw.text_xl
+                [  Tw.text_xl
                 , Tw.font_semibold
                 , Tw.text_color TwTheme.white
                 ]
             ]
             [ text title ]
+            , input
+                [ 
+                Attr.type_ "checkbox"
+                , Attr.checked isGlobalChecked
+                , Evt.onClick (toMsg (State (update (GlobalClicked items) value)))
+                , css
+                    [ Tw.h_5
+                    , Tw.w_5
+                    , Tw.block
+                    , Tw.rounded
+                    , Tw.border_color TwTheme.gray_300
+                    , Tw.accent_color TwTheme.emerald_400
+                    , Css.focus
+                        [ Tw.ring_color TwTheme.emerald_400
+                        ]
+                    ]
+                ]
+                []
+            ]
+        
         , ol
             [ css
                 [ Tw.mt_4

@@ -138,7 +138,7 @@ view model =
                         ]
                     ]
                     [ hero
-                    , Html.div [ Attr.css [ Tw.w_full ] ]
+                    , Html.div [ Attr.css [ Tw.w_full, Tw.relative ] ]
                         [ appHeader
                         , cardDashed
                             [ Evt.onClick NewGameClicked

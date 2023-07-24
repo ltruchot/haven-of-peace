@@ -19,6 +19,9 @@ getStartGold model =
         4 ->
             "J-1 et J-2 obtienne 3PO, J-3 obtient 4PO, J-4 obtient 5PO"
 
+        5 ->
+            "5PO pour chaque joueur"
+
         _ ->
             "3PO pour chaque joueur"
 
