@@ -1,4 +1,4 @@
-module DesignSystem.Select exposing (State, appSelect, getValue, init)
+module DesignSystem.Select exposing (State(..), appSelect, getValue, init)
 
 import Css
 import Html.Styled as Html exposing (div, label, option, select, text)

@@ -1,4 +1,4 @@
-module DesignSystem.CheckableList exposing (State, checkableList, getValue, init)
+module DesignSystem.CheckableList exposing (State(..), checkableList, getValue, init)
 
 import Css
 import Html.Styled as Html exposing (div, fieldset, input, label, legend, li, ol, strong, text)
