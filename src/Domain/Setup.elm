@@ -1,11 +1,14 @@
-module Domain.Setup exposing (getPlayerNumber, getStartGold, getMarketLayout, getMarketRiverNumber, getCallOfAdventurePlace, getInitiatives, getDiceNumberToPick)
+module Domain.Setup exposing (getCallOfAdventurePlace, getDiceNumberToPick, getInitiatives, getMarketLayout, getMarketRiverNumber, getPlayerNumber, getStartGold)
 
-import Types exposing (FrontendModel)
 import DesignSystem.Select as Select
+import Types exposing (FrontendModel)
 import Utils.Number exposing (increment)
 
+
 getPlayerNumber : FrontendModel -> Int
-getPlayerNumber model = (increment << Select.getValue) model.playerNumberFewerIndex
+getPlayerNumber model =
+    (increment << Select.getValue) model.playerNumberFewerIndex
+
 
 getStartGold : FrontendModel -> String
 getStartGold model =
@@ -19,6 +22,7 @@ getStartGold model =
         _ ->
             "3PO pour chaque joueur"
 
+
 getMarketLayout : FrontendModel -> String
 getMarketLayout model =
     case getPlayerNumber model of
@@ -31,6 +35,7 @@ getMarketLayout model =
         _ ->
             "40"
 
+
 getMarketRiverNumber : FrontendModel -> String
 getMarketRiverNumber model =
     case getPlayerNumber model of
@@ -39,12 +44,13 @@ getMarketRiverNumber model =
 
         4 ->
             "6"
-        
+
         5 ->
             "7"
 
         _ ->
             "4"
+
 
 getCallOfAdventurePlace : FrontendModel -> String
 getCallOfAdventurePlace model =
@@ -54,12 +60,13 @@ getCallOfAdventurePlace model =
 
         4 ->
             "33"
-        
+
         5 ->
             "38"
 
         _ ->
             "15"
+
 
 getInitiatives : FrontendModel -> String
 getInitiatives model =
@@ -69,12 +76,13 @@ getInitiatives model =
 
         4 ->
             "1, 2, 3, 4 et flèches montantes"
-        
+
         5 ->
             "1, 2, 3, 4, 5 et flèches montantes"
 
         _ ->
             "1, 2 et flèches montantes"
+
 
 getDiceNumberToPick : FrontendModel -> String
 getDiceNumberToPick model =
@@ -84,7 +92,7 @@ getDiceNumberToPick model =
 
         4 ->
             "10/5"
-        
+
         5 ->
             "12/6"
 

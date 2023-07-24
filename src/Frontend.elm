@@ -9,8 +9,7 @@ import DesignSystem.CheckableList as CheckableList
 import DesignSystem.Header exposing (appHeader)
 import DesignSystem.Hero exposing (hero)
 import DesignSystem.Select as Select
-import Domain.Setup exposing (getPlayerNumber, getStartGold, getMarketLayout, getMarketRiverNumber, getCallOfAdventurePlace, getInitiatives, getDiceNumberToPick)
-import Utils.Number exposing (increment)
+import Domain.Setup exposing (getCallOfAdventurePlace, getDiceNumberToPick, getInitiatives, getMarketLayout, getMarketRiverNumber, getPlayerNumber, getStartGold)
 import Html.Styled as Html exposing (toUnstyled)
 import Html.Styled.Attributes as Attr
 import Html.Styled.Events as Evt
@@ -21,6 +20,7 @@ import Tailwind.Utilities as Tw exposing (globalStyles)
 import Types exposing (..)
 import UUID exposing (UUID)
 import Url
+import Utils.Number exposing (increment)
 
 
 type alias Model =
@@ -159,11 +159,11 @@ view model =
                             , "Chaque Joueur pioche 2 Familiers, en choisi 1, rend l'autre"
                             , "Chaque Joueur pioche un Marqueur de classe, prend les 3 cartes Classe de ce Marqueur et le second Marqueur, choisi le recto ou verso d'une des cartes, rends les autres"
                             , "Chaque Joueur reçoit 1 Antécédent + 1 Alignement; 1 Marqueur est placé sur l'Alignement, 1 Marqueur sur la Classe"
-                            , "Chaque Joueur prend de l'or: " ++ (getStartGold model)
+                            , "Chaque Joueur prend de l'or: " ++ getStartGold model
                             , "Chaque Joueur reçoit 1 Aide de Jeu + 1 résumé des coûts"
-                            , "Le Marché est amputé de " ++ (getMarketLayout model) ++ " cartes lvl 1, assemblé en pioche (lvl 1 avant 2), puis l'Appel de l'Aventure (AdA) est placé après la " ++ (getCallOfAdventurePlace model) ++ "e carte"
-                            , "Révéler les " ++ (getMarketRiverNumber model) ++ " premières cartes marché en ligne"
-                            , "Placer les Initiatives " ++ (getInitiatives model) ++ ", en ligne, par ordre croissant"
+                            , "Le Marché est amputé de " ++ getMarketLayout model ++ " cartes lvl 1, assemblé en pioche (lvl 1 avant 2), puis l'Appel de l'Aventure (AdA) est placé après la " ++ getCallOfAdventurePlace model ++ "e carte"
+                            , "Révéler les " ++ getMarketRiverNumber model ++ " premières cartes marché en ligne"
+                            , "Placer les Initiatives " ++ getInitiatives model ++ ", en ligne, par ordre croissant"
                             , "Révéler 1 Monstre de la couleur d'un marqueur restant tiré au hasard"
                             , "Piocher 3 Aventures L/O/A de ce monstres, les placer face cachée près du monstre"
                             , "Les Sbires sont amputés de 18 cartes lvl 1 et sont assemblés en pioche (lvl 1 avant 2) - le premier sbire est retourné"
@@ -174,7 +174,7 @@ view model =
                             model.developmentListCheckedIndexes
                             "Phase de développement"
                             [ "J-1 pioche démons et place pièces pour chaque Initiative concernée"
-                            , "J-1 pioche " ++ (getDiceNumberToPick model) ++" dés (selon AdA), les lancent, les répartis sur Initiatives, en choisissant la place des dés de même valeur"
+                            , "J-1 pioche " ++ getDiceNumberToPick model ++ " dés (selon AdA), les lancent, les répartis sur Initiatives, en choisissant la place des dés de même valeur"
                             , "J-1 peut à tout moment engager ses Compétences restaurées si son alignement le permet (avec ou sans déclencher l'effet de la carte) bannir un démon (1 charisme ou 5PO, garder et retourner la carte), soigner une blessure (2XP), réaliser une AdC (5XP)"
                             , "J-1 choisi Initiative, place Marqueur dessus, obtient 1/2 dés et/ou pièce et/ou démon"
                             , "J-1 dispose 1/2 dé(s) sur Personnage, déclenche (ou non) UNE SEULE AdC"

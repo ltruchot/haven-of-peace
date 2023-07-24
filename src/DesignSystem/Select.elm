@@ -42,9 +42,9 @@ createSelectListItems toMsg (State val) items =
 
 selectableListItem : (State -> msg) -> State -> Int -> String -> Html.Html msg
 selectableListItem toMsg (State val) idx item =
-    option [ 
-        value (String.fromInt idx) 
-        , Evt.onClick(toMsg (State (update (ItemClicked idx) val)))
+    option
+        [ value (String.fromInt idx)
+        , Evt.onClick (toMsg (State (update (ItemClicked idx) val)))
         ]
         [ text item ]
 
