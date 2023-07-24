@@ -61,6 +61,7 @@ checkableList toMsg (State value) title items =
                 , Tw.text_color TwTheme.white
                 , Tw.w_full
                 , Tw.relative
+                , Tw.list_outside
                 ]
             ]
             [ legend
