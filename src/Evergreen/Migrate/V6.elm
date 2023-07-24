@@ -71,12 +71,12 @@ migrate_Types_FrontendModel : Evergreen.V3.Types.FrontendModel -> Evergreen.V6.T
 migrate_Types_FrontendModel old =
     { key = old.key
     , message = old.message
-    , playerNumberFewerIndex = (selectIndexInit {- Type `Evergreen.V6.DesignSystem.Select.State` was added in V6. I need you to set a default value. -})
+    , playerNumberFewerIndex = selectIndexInit
     , setupListCheckedIndexes = old.setupListCheckedIndexes |> migrate_DesignSystem_CheckableList_State
     , developmentListCheckedIndexes = old.developmentListCheckedIndexes |> migrate_DesignSystem_CheckableList_State
     , activityListCheckedIndexes = old.activityListCheckedIndexes |> migrate_DesignSystem_CheckableList_State
-    , monsterListCheckedIndexes = (listCheckedIndexesInit {- Type `Evergreen.V6.DesignSystem.CheckableList.State` was added in V6. I need you to set a default value. -})
-    , scoringListCheckedIndexes = (listCheckedIndexesInit {- Type `Evergreen.V6.DesignSystem.CheckableList.State` was added in V6. I need you to set a default value. -})
+    , monsterListCheckedIndexes = listCheckedIndexesInit
+    , scoringListCheckedIndexes = listCheckedIndexesInit
     }
 
 
