@@ -1,18 +1,19 @@
 module DesignSystem.Flyout exposing (flyout)
 
 import Css
-import Html.Styled as Html exposing (div, text, button)
+import Html.Styled as Html exposing (button, div, text)
 import Html.Styled.Attributes as Attr exposing (css)
 import Html.Styled.Events as Evt
 import Html.Styled.Events.Extra exposing (onClickPreventDefaultAndStopPropagation, onClickStopPropagation)
+import Svg.Styled as Svg exposing (path, svg)
+import Svg.Styled.Attributes as SvgAttr
 import Tailwind.Breakpoints as Bp
 import Tailwind.Theme as TwTheme
 import Tailwind.Utilities as Tw
-import Svg.Styled as Svg exposing (path, svg)
-import Svg.Styled.Attributes as SvgAttr
 
 
-flyout = div
+flyout =
+    div
         [ css
             [ Tw.relative
             , Tw.isolate
@@ -45,11 +46,13 @@ flyout = div
                         , Tw.text_sm
                         , Tw.font_semibold
                         , Tw.leading_6
+
                         --, Tw.text_color TwTheme.gray_900
                         ]
                     , Attr.attribute "aria-expanded" "false"
                     ]
-                    [ text "Solutions", svg
+                    [ text "Solutions"
+                    , svg
                         [ SvgAttr.css
                             [ Tw.h_5
                             , Tw.w_5
@@ -68,17 +71,17 @@ flyout = div
                     ]
                 ]
             ]
-        ,         {-
-    'Product' flyout menu, show/hide based on flyout menu state.
+        , {-
+             'Product' flyout menu, show/hide based on flyout menu state.
 
-    Entering: "transition ease-out duration-200"
-      From: "opacity-0 -translate-y-1"
-      To: "opacity-100 translate-y-0"
-    Leaving: "transition ease-in duration-150"
-      From: "opacity-100 translate-y-0"
-      To: "opacity-0 -translate-y-1"
-  -}
-        div
+             Entering: "transition ease-out duration-200"
+               From: "opacity-0 -translate-y-1"
+               To: "opacity-100 translate-y-0"
+             Leaving: "transition ease-in duration-150"
+               From: "opacity-100 translate-y-0"
+               To: "opacity-0 -translate-y-1"
+          -}
+          div
             [ css
                 [ Tw.absolute
                 , Tw.inset_x_0
@@ -88,6 +91,7 @@ flyout = div
                 , Tw.pt_16
                 , Tw.shadow_lg
                 , Tw.ring_1
+
                 -- , Tw.ring_color TwTheme.gray_900over5
                 ]
             ]
@@ -116,7 +120,6 @@ flyout = div
                         ]
                     ]
                 ]
-                [text "toto"]
+                [ text "toto" ]
             ]
         ]
-    

@@ -56,11 +56,15 @@ toFrontend : Evergreen.V3.Types.ToFrontend -> MsgMigration Evergreen.V6.Types.To
 toFrontend old =
     MsgUnchanged
 
+
 selectIndexInit : Evergreen.V6.DesignSystem.Select.State
-selectIndexInit = Evergreen.V6.DesignSystem.Select.State 0
+selectIndexInit =
+    Evergreen.V6.DesignSystem.Select.State 0
+
 
 listCheckedIndexesInit : Evergreen.V6.DesignSystem.CheckableList.State
-listCheckedIndexesInit = Evergreen.V6.DesignSystem.CheckableList.State []
+listCheckedIndexesInit =
+    Evergreen.V6.DesignSystem.CheckableList.State []
 
 
 migrate_Types_FrontendModel : Evergreen.V3.Types.FrontendModel -> Evergreen.V6.Types.FrontendModel

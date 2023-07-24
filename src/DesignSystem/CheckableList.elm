@@ -1,7 +1,7 @@
 module DesignSystem.CheckableList exposing (State(..), checkableList, getValue, init)
 
 import Css
-import Html.Styled as Html exposing (div, fieldset, input, label, legend, li, ol, strong, text)
+import Html.Styled as Html exposing (details, div, fieldset, input, label, legend, li, ol, strong, summary, text)
 import Html.Styled.Attributes as Attr exposing (css, src)
 import Html.Styled.Events as Evt
 import Html.Styled.Events.Extra exposing (onClickPreventDefaultAndStopPropagation, onClickStopPropagation)
@@ -35,14 +35,87 @@ update msg value =
         GlobalClicked items ->
             if List.length items == List.length value then
                 []
+
             else
                 List.range 0 (List.length items - 1)
+
         ItemClicked idx ->
             if List.member idx value then
                 List.filter (\i -> i /= idx) value
 
             else
                 List.concat [ value, [ idx ] ]
+
+
+checkableList : (State -> msg) -> State -> String -> List String -> Html.Html msg
+checkableList toMsg (State value) title items =
+    let
+        isGlobalChecked =
+            List.length value == List.length items
+    in
+    details [ css [ Tw.mb_12 ] ]
+        [ summary
+            [ css
+                [ Tw.text_xl
+                , Tw.font_semibold
+                , Tw.text_color TwTheme.white
+                , Tw.w_full
+                , Tw.relative
+                ]
+            ]
+            [ legend
+                [ css
+                    [ Tw.text_xl
+                    , Tw.font_semibold
+                    , Tw.text_color TwTheme.white
+                    , Tw.inline_block
+                    ]
+                ]
+                [ text title ]
+            , input
+                [ Attr.type_ "checkbox"
+                , Attr.checked isGlobalChecked
+                , Evt.onClick (toMsg (State (update (GlobalClicked items) value)))
+                , css
+                    [ Tw.h_5
+                    , Tw.w_5
+                    , Tw.inline_block
+                    , Tw.ml_auto
+                    , Tw.rounded
+                    , Tw.border_color TwTheme.gray_300
+                    , Tw.accent_color TwTheme.emerald_400
+                    , Tw.absolute
+                    , Tw.right_0
+                    , Tw.top_1over2
+                    , Tw.neg_translate_y_1over2
+                    , Css.focus
+                        [ Tw.ring_color TwTheme.emerald_400
+                        ]
+                    ]
+                ]
+                []
+            ]
+        , div
+            [ css
+                [ Tw.flex
+                , Tw.justify_between
+                , Tw.items_center
+                , Tw.mb_4
+                ]
+            ]
+            []
+        , ol
+            [ css
+                [ Tw.mt_4
+                , Tw.divide_y
+                , Tw.divide_color TwTheme.gray_200
+                , Tw.border_b
+                , Tw.border_t
+                , Tw.border_color TwTheme.gray_200
+                ]
+            ]
+            (createCheckableListItems toMsg (State value) items)
+        ]
 
 
 createCheckableListItems : (State -> msg) -> State -> List String -> List (Html.Html msg)
@@ -126,61 +199,4 @@ checkableListItem toMsg (State value) idx item =
                 ]
                 []
             ]
-        ]
-
-
-checkableList : (State -> msg) -> State -> String -> List String -> Html.Html msg
-checkableList toMsg (State value) title items =
-    let 
-        isGlobalChecked = List.length value == List.length items
-    in
-        fieldset [ css [ Tw.mb_12 ] ]
-        [
-            div [ 
-                css [ 
-                    Tw.flex
-                    , Tw.justify_between
-                    , Tw.items_center
-                    , Tw.mb_4
-                    ]
-                ][ 
-            legend
-            [ css
-                [  Tw.text_xl
-                , Tw.font_semibold
-                , Tw.text_color TwTheme.white
-                ]
-            ]
-            [ text title ]
-            , input
-                [ 
-                Attr.type_ "checkbox"
-                , Attr.checked isGlobalChecked
-                , Evt.onClick (toMsg (State (update (GlobalClicked items) value)))
-                , css
-                    [ Tw.h_5
-                    , Tw.w_5
-                    , Tw.block
-                    , Tw.rounded
-                    , Tw.border_color TwTheme.gray_300
-                    , Tw.accent_color TwTheme.emerald_400
-                    , Css.focus
-                        [ Tw.ring_color TwTheme.emerald_400
-                        ]
-                    ]
-                ]
-                []
-            ]
-        
-        , ol
-            [ css
-                [ Tw.mt_4
-                , Tw.divide_y
-                , Tw.divide_color TwTheme.gray_200
-                , Tw.border_b
-                , Tw.border_t
-                , Tw.border_color TwTheme.gray_200
-                ]
-            ]
-            (createCheckableListItems toMsg (State value) items)
         ]
