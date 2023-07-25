@@ -14,7 +14,7 @@ type State
 
 
 type Msg
-    = ItemClicked Int
+    = ItemClicked String
 
 
 getValue : State -> Int
@@ -30,8 +30,13 @@ init =
 update : Msg -> Int -> Int
 update msg val =
     case msg of
-        ItemClicked idx ->
-            idx
+        ItemClicked str ->
+            case String.toInt str of
+                Just n ->
+                    n
+
+                Nothing ->
+                    0
 
 
 createSelectListItems : (State -> msg) -> State -> List String -> List (Html.Html msg)
@@ -43,7 +48,6 @@ selectableListItem : (State -> msg) -> State -> Int -> String -> Html.Html msg
 selectableListItem toMsg (State val) idx item =
     option
         [ value (String.fromInt idx)
-        , Evt.onClick (toMsg (State (update (ItemClicked idx) val)))
         ]
         [ text item ]
 
@@ -65,6 +69,7 @@ appSelect toMsg (State val) title items =
         , select
             [ Attr.id "location"
             , Attr.name "location"
+            , Evt.onInput (\s -> toMsg (State (update (ItemClicked s) val)))
             , css
                 [ Tw.mt_2
                 , Tw.block
