@@ -2,9 +2,8 @@ module DesignSystem.Select exposing (State(..), appSelect, getValue, init)
 
 import Css
 import Html.Styled as Html exposing (div, label, option, select, text)
-import Html.Styled.Attributes as Attr exposing (css, src, value)
+import Html.Styled.Attributes as Attr exposing (css, value)
 import Html.Styled.Events as Evt
-import Html.Styled.Events.Extra exposing (onClickPreventDefaultAndStopPropagation, onClickStopPropagation)
 import Tailwind.Breakpoints as Bp
 import Tailwind.Theme as TwTheme
 import Tailwind.Utilities as Tw
